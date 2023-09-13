@@ -1,10 +1,15 @@
-# Unix Tools
+# Coding Notes
 
-> GitHub Tips:
->  git commit -m "first commit"
->  git branch -M main
->  git remote add origin https://github.com/Pumbaaxx/MyCodingNotes.git
->  git push -u origin main
+## Github
+
+> git commit -m "first commit"
+
+> git branch -M main
+
+> git remote add origin https://github.com/Pumbaaxx/MyCodingNotes.git
+
+> git push -u origin main
+
 ## Vim
 ### navigation
 - k: up
@@ -17,52 +22,37 @@ edit
 - i: inser
 - a: after
 
-## $
-- $0: the name of the script
-- $?: exit status
-- + 0:exist
-- + 1:no
+## ShortCut
 
-## edit file
+### edit file
 
 > vim file.extension
 
-## conditions
+### conditions
 - false || echo "oops fail"
 - true && echo "Display this string"
 
 > like JavaScript
 
-## variable
-- $(pwd)
-- <(ls)
-
-## execute
+### execute
 if the file doesn't have execute permission, we can add it using chmod
 
 > chmod +x filename
 
-
-## foobar
-
-> added by example.sh
-
-## {}
+### {}
 can be used to create multiple files
-
-
 
 > touch foo{1,2,3} means touch foo1 foo2 foo3
 > touch {foo bar}/{a...j}
 
-## diff
-show the difference between
+### diff
+show the difference between files
 
-## man
+### man
 manuel
 
-## tldr
+### tldr
 tool directory
 
-## less and more
+### less and more
 view the content

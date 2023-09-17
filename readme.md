@@ -11,6 +11,8 @@
 > git push -u origin main
 
 ## Vim
+[read more](./vim.md)
+
 ### navigation
 - k: up
 - j: down
@@ -22,7 +24,8 @@ edit
 - i: inser
 - a: after
 
-## ShortCut
+## Unix/Linux
+[read more](./UnixLearning.md)
 
 ### edit file
 

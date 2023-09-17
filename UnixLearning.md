@@ -1,17 +1,5 @@
 # Unix Tools
 
-## Vim
-### navigation
-- k: up
-- j: down
-- h: left
-- l: right
-
-### iIaA
-edit
-- i: inser
-- a: after
-
 ## $
 - $0: the name of the script
 - $?: exit status

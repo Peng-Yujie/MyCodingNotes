@@ -57,7 +57,57 @@ const restaurant = {
 };
 
 // String
+const airline = 'Tap Air Portugal';
+// Fix capitalization in name
+const passenger = 'pEnG';
+const passengerCorrect = passenger[0].toUpperCase() + passenger.slice(1).toLowerCase();
+console.log(passengerCorrect);
+// Fix space
+const loginEmail = '   pumBaaXX@ICloud.Com  \n';
+const normalizadEmail = loginEmail.toLowerCase().trim();
+console.log(normalizadEmail);
+// Replace
+const replaceEmail = normalizadEmail.replace('icloud', 'gmail');
+console.log(replaceEmail);
+// Replace all
+normalizadEmail.replace(/icloud/g, 'gmail');
+// Booleans
+console.log(normalizadEmail.includes('icloud'));
+console.log(normalizadEmail.includes('gmail'));
+console.log(normalizadEmail.startsWith('pumb'));
+console.log(normalizadEmail.endsWith('com'));
+// Split(Convert a string to an array)
+console.log('a+very+nice+string'.split('+'));
+const [firstname, lastname] = 'Yujie Peng'.split(' ');
+const newName = ['Mr', firstname, lastname].join('.');
+console.log(newName);
+// Application
+const capitalizeName = function (name) {
+  const names = name.split(' ');
+  const upperName = [];
+  for (const n of names) {
+    // upperName.push(n[0].toUpperCase() + n.slice(1).toLowerCase());
+    upperName.push(n.replace(n[0], n[0].toUpperCase()));
+  }
+  console.log(upperName.join(' '));
+}
+capitalizeName('yujie PENG');
+// Padding
+const message = 'Learn JavaScript';
+console.log(message.padStart(25, '-'));
+console.log(message.padEnd(25, '-'));
 
+const maskCreditCard = function (number) {
+  const str = number + '';
+  const last = str.slice(-4);
+  return last.padStart(str.length, '*');// Notice str.length
+}
+console.log(maskCreditCard(423794539));
+// Repeat
+const planesInline = function (n) {
+  console.log(`There are ${n} planes in line ${'🛩️'.repeat(n)}`);
+}
+planesInline(10);
 
 /*
 const question = new Map([

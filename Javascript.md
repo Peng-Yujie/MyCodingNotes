@@ -23,5 +23,20 @@ when you don't know whether it exists, if the part before ? exist, then read the
 
 > users[0]?.name ?? 'User array empty';
 
+## PassByValue
+JavaScript does not have 'pass by reference'
+only allow passing by value
 
+## Higher-order Functions
+- receive a function as a parameter
+- return new function
 
+## Function.function
+- call
+
+> function.call(thisArg, ...any arg array);
+
+- bind
+add more defined objects and create a new function
+
+> const bookEW23 = book.bind(eurowings, 23);

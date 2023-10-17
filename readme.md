@@ -13,6 +13,9 @@
 ## JavaScript
 [read more](./JavaScript/JavaScript.md)
 
+## Java
+[read more](./Java/)
+
 ## Vim
 [read more](./Vim/vim.md)
 

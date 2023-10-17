@@ -124,6 +124,10 @@ similiar to -n, i.e. delete line 1 to line 3
 
 > sed '1,3d' ip.txt
 
+#### delete empty lines
+
+> sed '/^$/d' intro
+
 #### replace characters
 
 > sed 'y/abcd/ABCD' txt
@@ -132,7 +136,12 @@ similiar to -n, i.e. delete line 1 to line 3
 
 ### Advanced
 #### special characters
-'\$': searching the lines containing '$'
+when we need to use characters to do specific tasks, add '\' in front of it
+
+> sed 's/\([uU]nix\)/\1(TM)/g' intro
+
+in this case, we are searching for unix or Unix, so it can be denoted by ([uU]nix). However, if we use ([uU]nix) directly, then this command line will search for '([uU]nix)'. So that we add \ to ignore the character;
+- \1 is the reference of the pattern founded
 
 #### isDigit
 every line that starts with a number in your file and surround that number by parentheses

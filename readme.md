@@ -10,8 +10,11 @@
 
 > git push -u origin main
 
+## JavaScript
+[read more](./JavaScript/JavaScript.md)
+
 ## Vim
-[read more](./vim.md)
+[read more](./Vim/vim.md)
 
 ### navigation
 - k: up
@@ -24,12 +27,12 @@ edit
 - i: inser
 - a: after
 
-## Unix/Linux
-[read more](./UnixLearning.md)
-
 ### edit file
 
 > vim file.extension
+
+## Unix/Linux
+[read more](./Linux/UnixLearning.md)
 
 ### conditions
 - false || echo "oops fail"

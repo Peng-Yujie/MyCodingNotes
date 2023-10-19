@@ -61,6 +61,17 @@ to print ' ' between, we can use " ", or ','(remember if there is no " " or ',' 
 > awk '{print NF; print $0; print $NF}' data/dukeofyork.txt
 print and move to next line
 
+### sub
+find the first one then replace
+gsub: g for global, replace all
+```Linux
+gsub(//,"",$4)  # for searching item, "" for replacement, $4 for resource
+
+echo "apple,banana,apple,orange" | awk '{ sub("apple","orange"); print}'
+
+echo "apple,banana,apple,orange" | awk '{ gsub("apple","orange"); print}'
+```
+
 ### NF
 means number of fields
 
@@ -83,16 +94,40 @@ means number of rows(lines)
 
 > awk 'BEGIN {print "===start==="} NR % 3 == 0{print $0} END{print "===end==="}' data/dukeofyork.txt
 
-### awk -f
-if the awk file has #!/usr/bin/awk -f, there's no need to type awk -f
-instead,
-
-> ./data/awkScripts/demoE3.awk data/emp.lst
+### format
+%'10d:    100,000
 
 >  printf ("%-15s %-10s %'10d -- Bonus: $%'10.2f \n", $2 , $4, $6 , $6 * .2)
 
-### format
-%'10d:    100,000
+### awk script
+
+#### in awk file
+```awk
+#!/usr/bin/awk -f
+BEGIN {print "===start==="}
+NR % 3 == 0{print $0}
+END{print "===end==="}
+```
+- **Header**
+> #!/usr/bin/awk -f
+this is the path of awk, means we can use ./demoE3.awk instead of awk -f demoE3.awk
+
+- **BEGIN**
+In the BEGIN block, we can initialize variables, print headers, etc. This block is executed before the first line of the input file is read.
+
+- **Body**
+The body of the awk script is executed for each line of the input file. The body is enclosed in curly braces.
+
+- **END**
+The END block is executed after the last line of the input file is read. This block is used to print summaries, totals, etc.
+
+#### in command line
+
+> awk -f data/awkScripts/demoE3.awk data/emp.lst
+
+if the awk file has #!/usr/bin/awk -f, there's no need to type awk -f
+instead:
+> ./data/awkScripts/demoE3.awk data/emp.lst
 
 ## sed(stream editor)
 

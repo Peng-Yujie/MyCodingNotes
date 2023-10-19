@@ -1,72 +1,74 @@
-# Unix Tools
+# Command Lines
 
 ## grep_awk_sed
 [VERY useful](./grep_awk_sed.md)
 
-## $
-- $0: the name of the script
-- $?: exit status
-- + 0:exist
-- + 1:no
-
-## edit file
-
-> vim file.extension
-
-## conditions
-- false || echo "oops fail"
-- true && echo "Display this string"
-
-> like JavaScript
-
-## variable
-- $(pwd)
-- <(ls)
-
-## execute
-if the file doesn't have execute permission, we can add it using chmod
-
-> chmod +x filename
-
-
-## foobar
-
-> added by example.sh
-
-## {}
-can be used to create multiple files
-
-
+## Create directory and file
+- directory: mkdir
+- file: touch
 
 > touch foo{1,2,3} means touch foo1 foo2 foo3
 > touch {foo bar}/{a...j}
 
-## diff
+## Edit file
+```Linux
+vim file.extension
+```
+
+## Execute
+if the file doesn't have execute permission, we can add it using chmod
+```Linux
+chmod +x filename
+```
+
+## Read file
+
+### cat
+- cat: read the whole file
+
+### head and tail
+- head -5: read the first 5 lines
+- tail -5: read the last 5 lines
+
+### diff
 show the difference between
 
-## man
+### wc
+- wc -l: count the number of lines
+- wc -w: count the number of words
+- wc -c: count the number of characters
+
+### sort
+- sort -n: sort by number
+- sort -r: reverse
+
+### less and more
+view the content
+
+### nl
+number lines
+
+## Conditions
+
+### $ 
+- $0: the whole line
+- $?: exit status
+- + 0:exist
+- + 1:no
+
+### if-else
+- false || echo "oops fail"
+- true && echo "Display this string"
+
+### variable
+- $(pwd)
+- <(ls)
+
+## Help
+### man
 manuel
 
 ## tldr
 tool directory
 
-## less and more
-view the content
-
-
-## sort
-
 ## cut
-
-## sub
-find the first one then replace
-gsub: g for global, replace all
-
-> gsub(//,"",$4) # // for searching item, "" for replacement, $4 for resource
-
-> echo "apple,banana,apple,orange" | awk '{ sub("apple","orange"); print}'
-
-> echo "apple,banana,apple,orange" | awk '{ gsub("apple","orange"); print}'
-
-## nl
-number lines

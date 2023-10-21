@@ -7,13 +7,13 @@
 - Static nested class: can be accessed from anywhere, just like static methods.
 - Inner class: can be accessed from anywhere, just like instance methods.
 - Anonymous class: can be accessed from anywhere, just like local variables.
-- + Annoumous means that the class has no name.
+- + Anonymous means that the class has no name.
 - + It can be defined **inside statements, expressions, or blocks**.
 
-## comparable in annoymous class:
-Suppose we want to sort the objects list by name in annoymous class:
+## comparable in anonymous class:
+Suppose we want to sort the objects list by name in anonymous class:
 ```java
-// annoymous class
+// anonymous class
 Collections.sort(list, new Comparator<Student>() {
     @Override
     public int compare(Student s1, Student s2) {

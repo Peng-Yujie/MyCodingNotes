@@ -41,26 +41,91 @@ Error is a subclass of Throwable that indicates serious problems that a reasonab
 ## Exception
 Exception is a subclass of Throwable that indicates conditions that a reasonable application might want to catch.
 
-### IOException
-#### FileNotFoundException
+### Throw exception
+We can throw an exception by using the throw keyword.
+```java
+throw new Exception("Exception message");
+```
 
-#### MalformedURLException
+We need to tell the compiler that this method may throw an exception by using the throws keyword.
+```java
+public void withdraw(double amount) throws IllegalArgumentException {
+    if (amount < balance) {
+        throw new IllegalArgumentException("Insufficient balance");
+    } else {
+        balance -= amount;
+    }
+}
+```
 
-#### UnknownHostException
+Then, when we call this method, we need to handle the exception by using try-catch block or throws keyword.
+```java
+public void transfer(double amount, Account target) {
+    try {
+        withdraw(amount);
+        target.deposit(amount);
+    } catch (IllegalArgumentException e) {
+        System.out.println(e.getMessage());
+    }
+}
+```
+or
+```java
+public void transfer(double amount, Account target) throws IllegalArgumentException {
+    this.withdraw(amount);
+    target.deposit(amount);
+}
+```
 
-### ClassNotFoundException
+### Print error message
+We usually do one of two options when we catch an exception:
+- e.getMessage()
+  print the error message to the console
 
-### RuntimeException
-#### ArithmeticException
+- e.printStackTrace()
+  print the error message and the stack trace to the console
+  **better for debugging**
 
-#### ClassCastException
+### Multiple Exceptions
+Use multiple catch blocks to handle different exceptions.
+Catch the more specific exception first, then the more general exception.
+```java
+try {
+    // code that may throw exception
+} catch (Exception1 e) {
+    // code to handle exception1
+} catch (Exception2 e) {
+    // code to handle exception2
+} catch (Exception3 e) {
+    // code to handle exception3
+} finally {
+    // code that will be executed no matter there is an exception or not
+    // usually used to close resources
+}
+```
 
-#### IllegalArgumentException
-##### NumberFormatException
+### Try-with-resources
+Put the resource in the try block, and the resource will be **closed automatically** after the try block.
 
-#### IndexOutOfBoundsException
+```java
+try (Scanner input = new Scanner(file)) {
+    // code that may throw exception
+} catch (Exception e) {
+    // code to handle exception
+}
+```
 
-#### NoSuchElementException
-##### InputMismatchException
+- If there are multiple resources in the try block, The resource that is declared first will be closed last.
+- Only objects that implement the AutoCloseable interface can be used in the try-with-resources statement.
+  e.g. Scanner, PrintWriter, etc.
 
-#### NullPointerException
+### Design own exception
+```java
+public class NSFException extends IllegalArgumentException {
+    public NSFException(String message) {
+        super(message);
+    }
+}
+```
+
+

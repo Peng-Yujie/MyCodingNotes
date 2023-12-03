@@ -8,7 +8,7 @@ This exception is thrown when a file is not found. It is a checked exception, so
 
 ```java
 File file = new File("test.txt");
-Scanner input = null
+Scanner input = null;
 try {
   // Try to pass the file name to the constructor
   Scanner input = new Scanner(file);
@@ -40,7 +40,7 @@ try{
 output.write("File found");
 output.close();
 ```
-** What if the filename contains a path? **
+**What if the filename contains a path?**
 ```java
 output = new PrintWriter("C:\\Users\\user\\Desktop\\file.txt");
 ```

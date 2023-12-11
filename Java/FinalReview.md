@@ -11,7 +11,7 @@
 - [ ] Exception Handling
 - [ ] File I/O
 - [ ] JavaFX
-- [ ] Threads
+- [x] Threads
 - [ ] Networking
 
 ## [Inheritance](./Objact_Oriented_Programming.md#inheritance)

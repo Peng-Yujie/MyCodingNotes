@@ -56,51 +56,36 @@ dict1 = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
 - copy()
 - count()
 
-## JSON in Python
-- JSON is a data format that is used to store and exchange data.
-- Use JSON and MongoDB to store data in the database.
 
+## Comprehension and Filter
+- Comprehension is a concise way to create a list, set, or dictionary.
+- Filter is a concise way to filter a list, set, or dictionary.
+
+### List
 ```python
-# Create a JSON object
-json1 = {
-    "name": "John",
-    "age": 30,
-    "city": "New York"
-}
+# Create a list
+list1 = [1, 2, 3, 4, 5]
 
-# Create a collection in MongoDB
-collection = db["customers"]
+# Create a list with a for loop
+list2 = []
+for i in list1:
+    list2.append(i)
 
-# Insert the JSON object into the collection
-collection.insert_one(json1)
+# Create a list with comprehension
+list3 = [i for i in list1]
 
-# Find the JSON object in the collection
-collection.find_one(json1)
+# Create a list with comprehension and filter
+list4 = [i for i in list1 if i > 3]
+```
 
-# Create a list of JSON objects
-json2 = [
-    {
-        "name": "Amy",
-        "age": 20,
-        "city": "San Francisco"
-    },
-    {
-        "name": "Hannah",
-        "age": 25,
-        "city": "Chicago"
-    },
-    {
-        "name": "Michael",
-        "age": 35,
-        "city": "Las Vegas"
-    },
-    {
-        "name": "Sandy",
-        "age": 40,
-        "city": "Seattle"
-    }
-]
+### Dictionary
+```python
+# Create a dictionary
+dict1 = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
 
-# Insert json1 into json2
-json2.append(json1)
+# Create a dictionary with comprehension
+dict2 = {k: v for k, v in dict1.items()}
+
+# Create a dictionary with comprehension and filter
+dict3 = {k: v for k, v in dict1.items() if v > 3}
 ```

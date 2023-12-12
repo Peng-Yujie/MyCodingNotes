@@ -15,6 +15,7 @@ To build a server of web application, we can use the socket module of python by 
 - Open a file: `file1 = open("file1.txt", "r")`
 - Read a file: `file1.read()`
 - Write a file: `file1.write("Hello World")`
+- Close a file: `file1.close()`
 
 ### csv
 - Read a csv file: `csv.reader(file1)`

@@ -97,3 +97,21 @@ To loop over sets, we need to use the `set.forEach()` method:
   - key: same as value in sets
   - set: set
 - To avoid confusion, we can use the same name for value and key: `set.forEach(function(value, _, set){});`
+
+### map
+`map` returns a new array containing the results of applying an operation on all original array elements
+- `const arr2 = arr.map(item => item * 2);`
+
+### filter
+`filter` returns a new array containing the array elements that passed a specified test condition
+
+### reduce
+`reduce` boils ("reduces") all array elements down to one single value (e.g. adding all elements together)
+- snowball effect
+- `const arrSum = arr.reduce((acc, cur) => acc + cur, 0);`
+  - get the sum of all elements
+  - acc: accumulator
+  - cur: current value
+  - 0: initial value
+- `const arrMax = arr.reduce((acc, cur) => acc > cur ? acc : cur, arr[0]);`
+  - get the maximum value of all elements

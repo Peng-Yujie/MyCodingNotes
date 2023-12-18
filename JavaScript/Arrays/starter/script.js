@@ -71,35 +71,35 @@ const displayMovements = function (movements) {
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-        <div class="movements__value">${mov}</div>
+        <div class="movements__value">${mov}€</div>
       </div>
     `;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 }
-displayMovements(account1.movements);
+// displayMovements(account1.movements);
 
 
 const calcPrintBalance = function (movements) {
   const balance = movements.reduce((acc, cur) => acc + cur, 0);
   labelBalance.textContent = `${balance}€`;
 };
-calcPrintBalance(account1.movements);
+// calcPrintBalance(account1.movements);
 
 
-const calcDisplaySummary = function (movements) {
-  const incomes = movements
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
 
-  const outcomes = movements
+  const outcomes = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
 
-  const interest = movements
+  const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(deposit => deposit * 1.2 / 100)
+    .map(deposit => deposit * acc.interestRate / 100)
     .filter((int, i, arr) => {
       // console.log(arr);
       return int >= 1; // count the interest greater than 1
@@ -110,7 +110,7 @@ const calcDisplaySummary = function (movements) {
   labelSumOut.textContent = `${Math.abs(outcomes)}€`;
   labelSumInterest.textContent = `${interest}€`;
 }
-calcDisplaySummary(account1.movements);
+// calcDisplaySummary(account1.movements);
 
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
@@ -125,6 +125,36 @@ const createUsernames = function (accs) {
 createUsernames(accounts);
 // console.log(accounts);
 
+
+// Event handler
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault(); // prevent form from submitting
+
+  currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value);
+  console.log(currentAccount);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // display ui and message
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`;
+    containerApp.style.opacity = 100;
+
+    // clear input fields
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+
+    // display movements
+    displayMovements(currentAccount.movements);
+
+    // display balance
+    calcPrintBalance(currentAccount.movements);
+
+    // display summary
+    calcDisplaySummary(currentAccount);
+  }
+
+});
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -303,6 +333,21 @@ console.log(maxValue);
 //   }, 0);
 // console.log(totalDepositsUSD);
 
+
+// find method
+/*
+const firstWithdrawal = movements.find(mov => mov < 0); // return the first element
+console.log(movements);
+console.log(firstWithdrawal);
+
+console.log(accounts);
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+const _account = accounts.filter(acc => acc.owner === 'Jessica Davis')[0];
+console.log(account);
+console.log(_account);
+*/
+
+
 ///////////////////////////////////////
 // Coding Challenge #1
 
@@ -344,7 +389,7 @@ checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
 
 // Coding Challenge #2
 
-/* 
+/*
 Let's go back to Julia and Kate's study about dogs. This time, they want to convert dog ages to human ages and calculate the average age of the dogs in their study.
 
 Create a function 'calcAverageHumanAge', which accepts an arrays of dog's ages ('ages'), and does the following things in order:
@@ -382,9 +427,12 @@ TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
 GOOD LUCK 😀
 */
 
+/*
 const calcAverageHumanAge2 = ages => ages
   .map(age => age <= 2 ? (age * 2) : (16 + age * 4))
   .filter(age => age >= 18)
   .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
 
 console.log(calcAverageHumanAge2([5, 2, 4, 1, 15, 8, 3]), calcAverageHumanAge2([16, 6, 10, 5, 6, 1, 4]));
+*/
+

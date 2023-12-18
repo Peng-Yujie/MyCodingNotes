@@ -108,10 +108,12 @@ To loop over sets, we need to use the `set.forEach()` method:
 ### reduce
 `reduce` boils ("reduces") all array elements down to one single value (e.g. adding all elements together)
 - snowball effect
-- `const arrSum = arr.reduce((acc, cur) => acc + cur, 0);`
-  - get the sum of all elements
+- get the sum of all elements
+  - `const arrSum = arr.reduce((acc, cur) => acc + cur, 0);`
   - acc: accumulator
   - cur: current value
   - 0: initial value
-- `const arrMax = arr.reduce((acc, cur) => acc > cur ? acc : cur, arr[0]);`
-  - get the maximum value of all elements
+- get the average of all elements
+  - `const arrAvg = arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);`
+- get the maximum value
+  - `const max = arr.reduce((acc, cur) => acc > cur ? acc : cur);`

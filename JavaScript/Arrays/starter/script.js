@@ -62,10 +62,12 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 // use forEach to display all the movements of an account
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = ''; // clear the container
 
-  movements.forEach((mov, i) => {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements; // copy(slice)
+
+  movs.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -164,7 +166,7 @@ btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
   const amount = Number(inputTransferAmount.value);
   const receiverAcc = accounts.find(acc => acc.username === inputTransferTo.value);
-  console.log(receiverAcc.owner, amount);
+  // console.log(receiverAcc.owner, amount);
   inputTransferAmount.value = inputTransferTo.value = '';
 
   if (amount > 0 &&
@@ -177,8 +179,20 @@ btnTransfer.addEventListener('click', function (e) {
     receiverAcc.movements.push(amount);
 
     updateUI(currentAccount);
-    console.log(currentAccount, receiverAcc);
+    // console.log(currentAccount, receiverAcc);
   }
+});
+
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    // add movement
+    currentAccount.movements.push(amount);
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = '';
 });
 
 
@@ -197,6 +211,14 @@ btnClose.addEventListener('click', function (e) {
   }
 
   inputCloseUsername.value = inputClosePin.value = '';
+});
+
+
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
 });
 
 
@@ -391,6 +413,90 @@ console.log(account);
 console.log(_account);
 */
 
+
+// Some method
+/*
+console.log(movements);
+// equality
+console.log(movements.includes(-130));
+// condition
+const anyDeposits = movements.some(mov => mov > 0); // return true if any element meets the condition
+console.log(anyDeposits);
+*/
+
+// Every method
+// console.log(movements.every(mov => mov > 0));
+// console.log(account4.movements.every(mov => mov > 0));
+
+// Separate callback
+// const deposit = mov => mov > 0; // define a condition
+// console.log(movements.some(deposit)); // boolean
+// console.log(movements.every(deposit)); // boolean
+// console.log(movements.filter(deposit)); // array
+
+
+// Flat and flatMap
+/*
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(arr.flat()); // map every element
+
+const arrDeep = [[[1, 2], 1], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat());
+console.log(arrDeep.flat(2));
+
+// chaining
+const overalBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalance);
+
+// flatMap
+const overalBalance2 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalance2);
+*/
+
+// Sort
+/*
+// strings
+const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+console.log(owners.sort()); // .sort() mutates
+// numbers
+// console.log(movements.sort()); // sort by unicode
+movements.sort((a, b) => a - b); // sort by number
+console.log(movements);
+console.log(movements.sort((a, b) => b - a)); // descending order
+*/
+
+
+// Creating and filling array
+const arr = [1, 2, 3, 4, 5, 6, 7];
+console.log(new Array(1, 2, 3, 4, 5, 6, 7));
+
+const x = new Array(7);
+console.log(x);
+console.log(x.fill(1, 3, 5));
+
+arr.fill(23, 2, 6);
+console.log(arr);
+
+const y = Array.from({ length: 7 }, () => 1);
+console.log(y);
+
+const z = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(z);
+
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    el => Number(el.textContent.replace('€', ''))
+  );
+  console.log(movementsUI);
+
+  // const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+});
 
 ///////////////////////////////////////
 // Coding Challenge #1

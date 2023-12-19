@@ -33,13 +33,17 @@ only allow passing by value
 
 ## Function.function
 - call
-
-> function.call(thisArg, ...any arg array);
+`function.call(thisArg, ...any arg array);`
 
 - bind
 add more defined objects and create a new function
+`const bookEW23 = book.bind(eurowings, 23);`
 
-> const bookEW23 = book.bind(eurowings, 23);
+## Event Handler
+
+### preventDefault
+e.preventDefault() prevents the default behavior of the event
+- `default behavior`: for example, submit button will submit the form, a link will redirect to the link
 
 ## Arrays
 
@@ -117,3 +121,11 @@ To loop over sets, we need to use the `set.forEach()` method:
   - `const arrAvg = arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);`
 - get the maximum value
   - `const max = arr.reduce((acc, cur) => acc > cur ? acc : cur);`
+
+
+### find
+`find` returns the value of the **first** array element that passed a specified test function
+- `const firstNegative = arr.find(el => el < 0);`
+  - == `const firstNegative = arr.filter(el => el < 0)[0];`
+- get the index of the element
+  - `const firstNegativeIndex = arr.findIndex(el => el < 0);`

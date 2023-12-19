@@ -47,6 +47,14 @@ e.preventDefault() prevents the default behavior of the event
 
 ## Arrays
 
+### create and fill
+- `const arr = new Array(7);` create an array with 7 empty elements: `[empty × 7]`
+  - `const arr2 = [...arr];` create a new array with the same length and elements
+- `arr.fill(1);` fill the array with 1: `[1, 1, 1, 1, 1, 1, 1]`
+  - `arr.fill(1, 3);` fill the array with 1 from index 3: `[empty × 3, 1, 1, 1, 1]`
+  - `arr.fill(1, 3, 5);` fill the array with 1 from index 3 to 5: `[empty × 3, 1, 1, empty × 2]`
+- `const arr = Array.from({length: 7}, () => 1);` create an array with 7 elements, each element is 1: `[1, 1, 1, 1, 1, 1, 1]` is the same as `const arr = new Array(7).fill(1);`
+
 ### slice
 slice does not mutate the original array, it returns a new array
 - `arr.slice(start);`
@@ -122,10 +130,57 @@ To loop over sets, we need to use the `set.forEach()` method:
 - get the maximum value
   - `const max = arr.reduce((acc, cur) => acc > cur ? acc : cur);`
 
-
 ### find
 `find` returns the value of the **first** array element that passed a specified test function
 - `const firstNegative = arr.find(el => el < 0);`
   - == `const firstNegative = arr.filter(el => el < 0)[0];`
 - get the index of the element
   - `const firstNegativeIndex = arr.findIndex(el => el < 0);`
+
+### includes
+`includes` returns true if the array contains a certain element, and false if not
+- equality
+  - `arr.includes('2');` returns false
+  - `arr.includes(2);` returns true
+
+### some
+`some` returns true if at least one element meets the condition
+- condition
+  - `arr.some(el => el === 2);` returns true
+  - `arr.some(el => el === 20);` returns false
+
+### every
+`every` returns true if all elements meet the condition
+- condition
+  - `arr.every(el => el === 2);` returns false
+  - `arr.every(el => el > 0);` returns true
+
+### flat
+`flat` returns a new array with all sub-array elements concatenated into it recursively up to the specified depth
+```js
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(arr.flat()); // [1, 2, 3, 4, 5, 6, 7, 8]
+
+// 2 levels deep
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat()); // [[1, 2], 3, 4, [5, 6], 7, 8]
+console.log(arrDeep.flat(2)); // [1, 2, 3, 4, 5, 6, 7, 8]
+
+// duplicate elements in different levels will not be removed
+const arrDup = [1,[1,2],[1,2,3]];
+console.log(arrDup.flat()); // [1, 1, 2, 1, 2, 3]
+```
+
+### flatMap
+`flatMap` = `map` + `flat`
+```js
+// map and then flat
+arr.map(el => el * 2).flat().reduce((acc, cur) => acc + cur, 0);
+// flatMap
+arr.flatMap(el => el * 2).reduce((acc, cur) => acc + cur, 0);
+```
+
+### sort
+`sort` sorts the elements of an array in place and returns the sorted array
+- `arr.sort();` sort by unicode, works for strings
+- `arr.sort((a, b) => a - b);` sort by number

@@ -4,24 +4,24 @@
 for each item in the array
 entries()
 
-> for(const [i, el] of menu.entries()){console.log(`${i+1}: ${el}`);
+`for(const [i, el] of menu.entries()){console.log(`${i+1}: ${el}`);`
 
 ## ? optional chaining
 when you don't know whether it exists, if the part before ? exist, then read the rest part.
 
 - objects
 
-> console.log(openinghours.mon?.open);
+`console.log(openinghours.mon?.open);`
 
-> console.log(openinghours?.mon?.open);
+`console.log(openinghours?.mon?.open);`
 
 - methods
 
-> restaurant.order?.(0, 1) ?? 'Method does not exist';
+`restaurant.order?.(0, 1) ?? 'Method does not exist';`
 
 - arrays
 
-> users[0]?.name ?? 'User array empty';
+`users[0]?.name ?? 'User array empty';`
 
 ## PassByValue
 JavaScript does not have 'pass by reference'
@@ -39,11 +39,6 @@ only allow passing by value
 add more defined objects and create a new function
 `const bookEW23 = book.bind(eurowings, 23);`
 
-## Event Handler
-
-### preventDefault
-e.preventDefault() prevents the default behavior of the event
-- `default behavior`: for example, submit button will submit the form, a link will redirect to the link
 
 ## Arrays
 
@@ -184,3 +179,87 @@ arr.flatMap(el => el * 2).reduce((acc, cur) => acc + cur, 0);
 `sort` sorts the elements of an array in place and returns the sorted array
 - `arr.sort();` sort by unicode, works for strings
 - `arr.sort((a, b) => a - b);` sort by number
+
+
+## DOM
+document: the whole HTML document
+- Access the whole document: `document.documentElement`
+- Access the head: `document.head`
+- Access the body: `document.body`
+- Access an ID: `document.getElementById('id')`
+- Access all elements with a tag: `document.getElementsByTagName('tag')`
+- Access all elements with a class: `document.getElementsByClassName('class')`
+- Access all elements with a selector: `document.querySelector('selector')`
+- Access all elements with a selector: `document.querySelectorAll('selector')`
+  - difference between querySelector and querySelectorAll
+    - querySelector: returns the first element that matches the selector
+    - querySelectorAll: returns all elements that match the selector
+
+
+### Styles
+- for element.style
+  - it works for inline styles
+  - the styles in CSS file cannot be accessed by element.style, it can only be accessed by getComputedStyle
+    ```js
+    element.style.backgroundColor = '#fff';
+    console.log(element.style.backgroundColor); // #fff
+    console.log(element.style.color); // empty string since we didn't set the color
+    console.log(getComputedStyle(element).color); // getComputedStyle will return every style
+    ```
+- for document
+  - we can set the style for the whole document by document.documentElement.style.setProperty:
+    ```js
+    document.documentElement.style.setProperty('--color-primary', 'orangered');
+    ```
+
+### Attributes
+- standard attributes
+  - we can access the standard attributes by `element.attribute`: `img.src`, `a.href`
+  - **set attributes**: `element.attribute = 'xxx'`
+- non-standard attributes
+  - suppose we have customized attributes: `designer="xxx"`, then we can access it by `element.getAttribute('designer')`
+  - in this case, `element.designer` will return undefined
+  - if we don't have customized attributes, then `element.getAttribute('designer')` will return null
+  - **set attributes**: `element.setAttribute('designer', 'xxx')`
+
+```js
+const link = document.querySelector('.nav__link--btn');
+console.log(link.href); // returns the absolute path
+console.log(link.getAttribute('href')); // returns the relative path
+```
+
+### Classes
+- `element.classList.add('class')`: add a class
+- `element.classList.remove('class')`: remove a class
+- `element.classList.toggle('class')`: if the class exists, remove it; if the class does not exist, add it
+- `element.classList.contains('class')`: check if the class exists, returns true or false
+
+### Event Handler
+
+#### preventDefault
+e.preventDefault() prevents the default behavior of the event
+- `default behavior`: for example, submit button will submit the form, a link will redirect to the link
+
+#### addEventListener
+- `element.addEventListener('event', function);`
+  - event: click, keydown, keyup, keypress, submit, load, DOMContentLoaded
+  - function: the function to be executed when the event occurs
+- `element.onEvent = function;`
+  - event: click, keydown, keyup, keypress, submit, load, DOMContentLoaded
+  - function: the function to be executed when the event occurs
+  - it can only be used for one event
+
+#### removeEventListener
+it can remove the event listener, but it has to be a **named function**
+```js
+const h1Alert = function(e){
+  alert('addEventListener: Great! You are reading the heading :D');
+  h1.removeEventListener('mouseenter', h1Alert);
+};
+h1.addEventListener('mouseenter', h1Alert);
+```
+
+#### setTimeout
+- `setTimeout(function, time);`
+  - function: the function to be executed after the time
+  - time: the time in milliseconds: `1000` = 1 second

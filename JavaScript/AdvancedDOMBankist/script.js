@@ -36,6 +36,7 @@ document.addEventListener('keydown', function (e) {
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 
+// Scrolling
 btnScrollTo.addEventListener('click', function (e) {
   const s1coords = section1.getBoundingClientRect();
   // console.log(s1coords);
@@ -50,7 +51,48 @@ btnScrollTo.addEventListener('click', function (e) {
   //   behavior: 'smooth',
   // });
   section1.scrollIntoView({ behavior: 'smooth' });
+});
 
+// Page Navigation
+
+// document.querySelectorAll('.nav__link').forEach(function (el) {
+//   el.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     // console.log('LINK', e.target);
+//     const id = this.getAttribute('href'); // get the destination
+//     document.querySelector(id).scrollIntoView({ behavior: 'smooth' }); // scroll to
+//   })
+// });
+
+document.querySelector('.nav__links').addEventListener('click', function (e) { // nav__links: parent element
+  // console.log(e.target);
+  e.preventDefault();
+  // matching strategy
+  if (e.target.classList.contains('nav__link')) { // target
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+// tabbed component
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+// tabs.forEach(t => t.addEventListener('click', () => { console.log('TAB') }));
+tabsContainer.addEventListener('click', (e) => {
+  // const clicked = e.target; // it could be a span in tab
+  const clicked = e.target.closest('.operations__tab');
+  console.log(clicked);
+
+  if (!clicked) return;  // return if nothing is clicked
+
+  // active tab
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  clicked.classList.add('operations__tab--active');
+  // active content area
+  tabsContent.forEach(tc => tc.classList.remove('operations__content--active'));
+  document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
 });
 
 
@@ -129,8 +171,33 @@ console.log(logo.dataset.versionNumber);
 */
 
 // events
-const h1 = document.querySelector('h1');
 
+// const h1 = document.querySelector('h1');
+/*
+// going downwards: child
+console.log(h1.querySelectorAll('.highlight')); // get by tag
+console.log(h1.childNodes);
+console.log(h1.children);
+// h1.firstElementChild.style.color = 'white';
+// h1.lastElementChild.style.color = 'orangered';
+
+// going upwards
+console.log(h1.parentNode);
+console.log(h1.parentElement);
+// h1.closest('.header').style.background = 'var(--gradient-secondary)';
+// h1.closest('h1').style.background = 'var(--gradient-primary)';
+
+// going sideways: siblings
+console.log(document.querySelector('h4').previousElementSibling);
+console.log(h1.nextElementSibling);
+
+console.log([...h1.parentElement.children]);
+// [...h1.parentElement.children].forEach((el) => {
+//   if (el !== h1) el.style.transform = 'scale(0.5)';
+// });
+*/
+
+/*
 const h1Alert = function (e) {
   alert('addEventListener: Great! Reading the heading');
   // remove
@@ -140,6 +207,28 @@ h1.addEventListener('mouseenter', h1Alert);
 
 setTimeout(() => h1.removeEventListener('mouseenter', h1Alert), 3000);
 
-// h1.onmouseenter = function (e) {
-//   alert("Mouse enter");
-// };
+h1.onmouseenter = function (e) {
+  alert("Mouse enter");
+};
+
+const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+const randomColor = () => `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
+
+document.querySelector('.nav__link').addEventListener('click', function (e) {
+  console.log(e.target, e.currentTarget);
+  this.style.backgroundColor = randomColor();
+  e.stopPropagation(); // stop bubbling up
+})
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  console.log(e.target, e.currentTarget);
+  this.style.backgroundColor = randomColor();
+})
+
+document.querySelector('.nav').addEventListener('click', function (e) {
+  console.log(e.target, e.currentTarget);
+  this.style.backgroundColor = randomColor();
+})
+*/
+

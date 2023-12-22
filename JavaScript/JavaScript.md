@@ -4,7 +4,9 @@
 for each item in the array
 entries()
 
-`for(const [i, el] of menu.entries()){console.log(`${i+1}: ${el}`);`
+```js
+for(const [i, el] of menu.entries()){console.log(`${i+1}: ${el}`);
+```
 
 ## ? optional chaining
 when you don't know whether it exists, if the part before ? exist, then read the rest part.
@@ -263,3 +265,53 @@ h1.addEventListener('mouseenter', h1Alert);
 - `setTimeout(function, time);`
   - function: the function to be executed after the time
   - time: the time in milliseconds: `1000` = 1 second
+
+#### Capture and Bubbling
+- Capture: the event is captured from the top to the bottom, in this case, from the parent to the grandchild
+- Bubbling: the event is bubbled up from the bottom to the top, in this case, from the grandchild to the parent
+
+Consider the following HTML:
+```html
+<div class="parent">
+  <div class="child">
+    <div class="grandchild"></div>
+  </div>
+</div>
+```
+In this case, if we add event listeners to all three elements, then the order of the event listeners will be:
+- Capture: parent, child, grandchild
+- Bubbling: grandchild, child, parent
+  - `e.target`: the element that triggered the event
+  - `e.currentTarget`: the element that the event listener is attached to
+
+#### Event Propagation
+- When an event happens on an element, it first runs the handlers on it, then on its parent, then all the way up on other ancestors.
+- `e.stopPropagation()`: stop the event from bubbling up
+
+#### Event Delegation
+Event delegation is a technique involving adding event listeners to a parent element instead of adding them to the descendant elements.
+1. Add the event listener to a common parent element
+2. Determine what element originated the event
+```js
+document.querySelector('.nav__links').addEventListener('click', function (e) { // nav__links: parent element
+  if (e.target.classList.contains('nav__link')) { // matching strategy
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+```
+
+#### DOM Traversing
+- go downwards:
+  - `el.children`: returns all the children elements
+  - `el.firstElementChild`: returns the first child element
+  - `el.lastElementChild`: returns the last child element
+- go upwards:
+  - `el.parentElement`: returns the parent element
+  - `el.closest('selector')`: returns the closest element that matches the selector
+- go sideways:
+  - `el.previousElementSibling`: returns the previous sibling element
+  - `el.nextElementSibling`: returns the next sibling element
+  - `el.parentElement.children`: returns all the siblings elements
+
+

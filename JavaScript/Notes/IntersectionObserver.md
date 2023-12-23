@@ -25,3 +25,10 @@ const options = {
 const observer = new IntersectionObserver(callback, options);
 observer.observe(target);
 ```
+
+
+## Lazy Loading Images
+By default, JavaScript is loaded synchronously.
+With lazy loading, you can load JavaScript asynchronously.
+- First, load the text content and low resolution images.
+- Then, load the JavaScript and high resolution images.

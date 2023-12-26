@@ -13,7 +13,7 @@ document: the whole HTML document
     - querySelector: returns the first element that matches the selector
     - querySelectorAll: returns all elements that match the selector
 
-### Styles
+## Styles
 - for element.style
   - it works for inline styles
   - the styles in CSS file cannot be accessed by element.style, it can only be accessed by getComputedStyle
@@ -29,7 +29,7 @@ document: the whole HTML document
     document.documentElement.style.setProperty('--color-primary', 'orangered');
     ```
 
-### Attributes
+## Attributes
 - standard attributes
   - we can access the standard attributes by `element.attribute`: `img.src`, `a.href`
   - **set attributes**: `element.attribute = 'xxx'`
@@ -45,7 +45,7 @@ console.log(link.href); // returns the absolute path
 console.log(link.getAttribute('href')); // returns the relative path
 ```
 
-#### Data Attributes
+### Data Attributes
 Data in the element:
 - `data-xxx="xxx"`: data attributes
 - `dataset.xxx`: access the data attributes
@@ -60,16 +60,40 @@ console.log(link.dataset.id); // 1
 ```
 
 
-### Classes
+## Classes
 - `element.classList.add('class')`: add a class
 - `element.classList.remove('class')`: remove a class
 - `element.classList.toggle('class')`: if the class exists, remove it; if the class does not exist, add it
 - `element.classList.contains('class')`: check if the class exists, returns true or false
 
-### Event Handler
+## Event Handler
 [Event.md](Notes/Event.md)
 
-### DOM Traversing
+### DOM Content Loaded
+Regular JavaScript is loaded synchronously, which means that the JavaScript will be executed line by line.
+When we need the DOM to be ready, we can use `DOMContentLoaded` event:
+- `DOMContentLoaded`: fires when the HTML is completely parsed, but before the CSS and images are loaded
+- `load`: fires when the HTML, CSS, and images are completely loaded
+- or we can leave the script tag at the end of the body tag
+
+Async in head tag: scripts are fetched asynchronously, but executed immediately when they are fetched
+```html
+<script async src="script.js"></script>
+```
+
+Defer in head tag: scripts are fetched asynchronously, and executed after the HTML is parsed
+```html
+<script defer src="script.js"></script>
+```
+
+**Notice**:
+- `async` and `defer` only work in head tag, not in body tag
+- `async` and `defer` only work for external scripts, not inline scripts
+- `async` scripts are not guaranteed to be executed in order, but `defer` scripts are guaranteed to be executed in order
+- **In general, use `defer` for external scripts, and use `DOMContentLoaded` for inline scripts**
+
+
+## DOM Traversing
 - go downwards:
   - `el.children`: returns all the children elements
   - `el.firstElementChild`: returns the first child element
@@ -81,4 +105,3 @@ console.log(link.dataset.id); // 1
   - `el.previousElementSibling`: returns the previous sibling element
   - `el.nextElementSibling`: returns the next sibling element
   - `el.parentElement.children`: returns all the siblings elements
-

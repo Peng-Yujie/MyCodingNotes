@@ -45,6 +45,21 @@ console.log(link.href); // returns the absolute path
 console.log(link.getAttribute('href')); // returns the relative path
 ```
 
+#### Data Attributes
+Data in the element:
+- `data-xxx="xxx"`: data attributes
+- `dataset.xxx`: access the data attributes
+
+```html
+<div class="nav__link--btn" data-id="1">Link 1</div>
+```
+
+```js
+const link = document.querySelector('.nav__link--btn');
+console.log(link.dataset.id); // 1
+```
+
+
 ### Classes
 - `element.classList.add('class')`: add a class
 - `element.classList.remove('class')`: remove a class

@@ -111,7 +111,7 @@ class PersonCl {
   }
 
   set fullName(name) {
-    console.log(name);
+    // console.log(name);
     if (name.includes(' ')) this._fullName = name; // _fullName
     else alert(`${name} is not a full name!`);
   }
@@ -131,20 +131,25 @@ PersonCl.hi = function (name) {
 }
 
 const jessica = new PersonCl('Jessica Bing', 1996);
-jessica.calcAge();
-PersonCl.hey();
+// jessica.calcAge();
+// PersonCl.hey();
 
 // Object.create()
 const PersonProto = {
   calcAge() {
     console.log(2024 - this.birthYear);
-  }
+  },
+
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
 };
 
 const steven = Object.create(PersonProto);
 steven.name = 'Steven';
 steven.birthYear = 2002;
-steven.calcAge();
+// steven.calcAge();
 */
 
 /*
@@ -255,6 +260,38 @@ console.log(mike.__proto__.__proto__); // Person.prototype
 */
 
 ///////////////////////////////////////
+// Inheritance Between "Classes": ES6 Classes
+/*
+class StudentCl extends PersonCl {
+  constructor(fullName, birthYear, course) {
+    super(fullName, birthYear); // invoke the parent class constructor
+    this.course = course;
+  }
+
+  introduce() {
+    console.log(`${this.fullName} study ${this.course}`);
+  }
+}
+
+const martha = new StudentCl('Martha Jonas', 2000, 'CS');
+martha.introduce();
+martha.calcAge();
+*/
+
+///////////////////////////////////////
+// Inheritance Between "Classes": Object.create()
+/*
+const StudentProto = Object.create(PersonProto);
+StudentProto.init = function (firstName, birthYear, course) {
+  PersonProto.init.call(this, firstName, birthYear); // invoke the parent class
+  this.course = course;
+}
+
+const jay = Object.create(StudentProto);
+jay.init('Jay', 2020, 'CS');
+*/
+
+///////////////////////////////////////
 // Coding Challenge #3
 
 /* 
@@ -307,3 +344,44 @@ tesla.brake();
 tesla.chargeBattery(90);
 console.log(tesla);
 */
+
+class Account {
+  // 1) Public fields
+  locale = navigator.language;
+
+  // 2) Private fields
+  #movements = [];
+  #pin;
+
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.#pin = pin;
+    // console.log(`Thanks for opening an account, ${owner}`);
+  }
+
+  // 3) Public methods
+  getMovements() {
+    return this.#movements;
+  }
+
+  deposit(val) {
+    this.#movements.push(val);
+  }
+
+  withdraw(val) {
+    if (this.#approveLoan(val)) this.deposit(-val);
+  }
+
+  // 4) Private methods
+  #approveLoan(val) {
+    return true;
+  }
+}
+
+const acc1 = new Account('Jonas', 'EUR', 1111);
+acc1.deposit(250);
+acc1.withdraw(140);
+// acc1.#movements.push(100); // error
+console.log(acc1.getMovements());
+console.log(acc1);

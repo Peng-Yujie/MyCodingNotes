@@ -38,10 +38,43 @@ Modern JavaScript introduced the concept of promises to solve the problem of cal
     - fulfilled: the operation was successful, the value is available
     - rejected: the operation failed
 
+```js
+const getCountryData = function (country) {
+  fetch(`https://countries-api-836d.onrender.com/countries/name/${country}`) // fetch return promise
+    .then(
+      response => response.json()
+      // err => alert(err) // handle error in the callback
+      ) // return promise
+    .then(data => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders?.[0]; // if borders exist, return the first element, otherwise return undefined
+      if (!neighbour) return;
+      return fetch(`https://countries-api-836d.onrender.com/countries/alpha/${neighbour}`); // return a new promise
+    })
+    .then(response => response.json())
+    .then(data => renderCountry(data, 'neighbour'))
+    .catch(err => alert(err)) // catch any error in the chain
+    .finally(()=>{...}); // always execute
+}
+getCountryData('canada');
+```
+
 ### fetch() | Bulid a Promise
-fetch() is a web API that can be used to create requests. It returns a promise.
+fetch() is a web API that can be used to create requests.
+- Parameters: URL, options
+  - `fetch('<url>')`
+  - `fetch('<url>', {method: 'POST', body: JSON.stringify({name: 'john'})})`
+- It returns a promise.
 
 ### then() | Handle a Fulfilled Promise
-then() is a higher-order function that takes two callback functions as arguments.
-- The first callback is called if the promise is fulfilled.
-- The second callback is called if the promise is rejected.
+then() follows and handles a promise.
+- Return a promise
+
+### catch() | Handling Rejected Promises
+catch() handles a rejected promise, it catches any error in the chain.
+
+### finally() | Always Execute
+finally() always executes, no matter the promise is fulfilled or rejected.
+
+### throw Error
+To handle error in the way we want, we can throw an error in the chain.

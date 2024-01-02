@@ -143,3 +143,87 @@ In the example above,
 6. the setTimeout() is put in the callback queue
 7. the Event Loop puts the Promise in the Call Stack
 8. the Event Loop puts the setTimeout() in the Call Stack
+
+## Async/Await
+Async/await is a modern way of handling asynchronous code.
+- Async functions always return a **promise**
+- await is only valid in an async function
+- await pauses the execution of the async function, waiting for the promise to be fulfilled
+
+```js
+const whereAmI = async function (country) {
+  const res = await fetch(`https://countries-api-836d.onrender.com/countries/name/${country}`);
+  console.log(res);
+  // Same as:
+  // fetch(`https://countries-api-836d.onrender.com/countries/name/${country}`).then(res => console.log(res));
+}
+whereAmI('canada');
+console.log('FIRST'); // FIRST
+// Output:
+// FIRST
+// Promise {<pending>}
+```
+
+### Convert Chainings to Async/Await
+
+```js
+const getCountryData = async function (country) {
+  try { 
+    const res = await fetch(`https://countries-api-836d.onrender.com/countries/name/${country}`);
+    const data = await res.json();
+    renderCountry(data[0]);
+    const neighbour = data[0].borders?.[0];
+    if (!neighbour) return;
+    const res2 = await fetch(`https://countries-api-836d.onrender.com/countries/alpha/${neighbour}`);
+    const data2 = await res2.json();
+    renderCountry(data2, 'neighbour');
+  } catch (err) {
+    alert(err);
+  }
+}
+// same as:
+// const getCountryData = function (country) {
+//   fetch(`https://countries-api-836d.onrender.com/countries/name/${country}`)
+//     .then(res => res.json())
+//     .then(data => {
+//       renderCountry(data[0]);
+//       const neighbour = data[0].borders?.[0];
+//       if (!neighbour) return;
+//       return fetch(`https://countries-api-836d.onrender.com/countries/alpha/${neighbour}`);
+//     })
+//     .then(res => res.json())
+//     .then(data => renderCountry(data, 'neighbour'))
+//     .catch(err => alert(err))
+//     .finally(()=>{...});
+// }
+getCountryData('canada');
+```
+
+### Error Handling
+Cannot use `catch` to handle error in async/await, need to use `try...catch` instead.
+  
+```js
+const func = async function() {
+  try{
+    //...
+    // if there might be an error, use throw new Error('...')
+    if(err) throw new Error('...');
+    return res;
+  } catch(err) {
+    // handle error
+  }
+};
+
+console.log('FIRST');
+func().then(res => console.log(res));
+console.log('LAST');
+
+// Output:
+// FIRST
+// LAST
+// res
+```
+
+### Returning Values from Async Functions
+when calling this async function `func()`, it returns a promise, so we can use `then()` to handle the result.
+- **note**: since `func()` is an async function, it will be executed asynchronously, so the `console.log('LAST')` will be executed before `func()` is finished.

@@ -70,12 +70,12 @@ const renderCountry = function (data, className = '') {
     </article>
   `;
   countriesContainer.insertAdjacentHTML('beforeend', html);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 }
 
 const renderError = function (msg) {
   countriesContainer.insertAdjacentText('beforeend', msg);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 }
 
 const getJSON = function (url, errorMsg = 'Something went wrong!') {
@@ -186,13 +186,13 @@ lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
 */
 
 // Promisifying setTimeout
-
+/*
 const wait = function (seconds) {
   return new Promise(function (resolve) {
     setTimeout(resolve, seconds * 1000);
   });
 }
-/*
+
 wait(2).then(() => {
   console.log('Waited for 2 seconds');
   return wait(1);
@@ -200,7 +200,7 @@ wait(2).then(() => {
 
 Promise.resolve('abc').then(x => console.log(x));
 Promise.reject(new Error('error')).then(x => console.error(x));
-*/
+
 
 // Promisifying the Geolocation API
 
@@ -232,11 +232,12 @@ const whereAmI = function () {
 };
 
 // btn.addEventListener('click', whereAmI);
+*/
 
 ///////////////////////////////////////
 // Coding Challenge #2
 
-/* 
+/*
 Build the image loading functionality that I just showed you on the screen.
 
 Tasks are not super-descriptive this time, so that you can figure out some stuff on your own. Pretend you're working on your own 😉
@@ -257,8 +258,9 @@ TEST DATA: Images in the img folder. Test the error handler by passing a wrong i
 
 GOOD LUCK 😀
 */
-
+/*
 const imgContainer = document.querySelector('.images');
+
 const createImage = function (imgPath) {
   return new Promise(function (resolve, reject) {
     const img = document.createElement('img');
@@ -278,7 +280,7 @@ createImage('img/img-1.jpg')
   .then(img => {
     curImg = img;
     console.log('img 1 loaded');
-    return wait(2);
+    return wait(2); // doesn't have any value
   })
   .then(() => {
     curImg.style.display = 'none';
@@ -293,3 +295,58 @@ createImage('img/img-1.jpg')
     curImg.style.display = 'none';
   })
   .catch(err => console.error(err));
+  */
+
+///////////////////////////////////////
+// Async/Await
+// Error handling: Try...Catch
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+const whereAmI = async function () {
+  // geolocation
+  try {
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
+
+    // reverse geocoding
+    const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+    if (!resGeo.ok) throw new Error('Problem getting location data');
+    const dataGeo = await resGeo.json();
+
+    // country data
+    const res = await fetch(`https://countries-api-836d.onrender.com/countries/name/${dataGeo.country}`);
+    if (!res.ok) throw new Error('Problem getting country');
+    const data = await res.json();
+    renderCountry(data[0]);
+
+    return `You are in ${dataGeo.city}, ${dataGeo.country}`;
+  } catch (err) {
+    console.error(`${err}`);
+    renderError(`${err.message}`);
+
+    // reject promise returned from async function
+    throw err;
+  }
+};
+
+console.log('1: Will get location');
+// whereAmI()
+//   .then(city => console.log(`2: ${city}`))
+//   .catch(err => console.error(`2: ${err.message}`))
+//   .finally(() => console.log('3: Finished getting location'));
+
+(async function () {
+  try {
+    const city = await whereAmI();
+    console.log(`2: ${city}`)
+  } catch (err) {
+    console.error(`2: ${err.message}`);
+  }
+  console.log('3: Finished getting location');
+})();
+

@@ -78,3 +78,68 @@ finally() always executes, no matter the promise is fulfilled or rejected.
 
 ### throw Error
 To handle error in the way we want, we can throw an error in the chain.
+
+### Build a Promise
+```js
+const lotteryPromise = new Promise(function (resolve, reject) { // resolve and reject are callback functions
+  if (Math.random() >= 0.5) {
+    resolve('You WIN'); // resolve is called and the promise is fulfilled, the value can be accessed by then()
+  } else {
+    reject(new Error('You lost your money')); // the content within reject() can be any value(string, number, object, etc.), but it is recommended to be an Error object
+  }
+});
+
+lotteryPromise.then(res => console.log(res)).catch(err => console.log(err));
+```
+
+
+## Behind the Scene: The Event Loop
+- JavaScript Engine: the program that executes JavaScript code
+  - Call Stack: where the code is executed, only one at a time
+  - Heap: where objects are stored
+- Web APIs
+  - DOM
+  - AJAX
+  - Timeout
+- Callback Queue: where the callbacks are placed, waiting to be executed
+
+### How Asynchronous Code Works
+Event loop decides when each callback function is executed.
+
+- The code is executed line by line
+- When the **engine** encounters an asynchronous task, it sends it to the **Web APIs**
+  - The rest of the code will continue to be executed
+- The **Web APIs** will finish the task and put the **callback function** in the **Callback Queue**
+  - The callback queue also contains the **DOM events**
+- The **Event Loop** will put the callback function in the **Call Stack** when the **Call Stack** is empty(No code is being executed)
+  - The microtasks queue has higher priority than the callback queue, the callback queue will be executed **only when the microtasks queue is empty**
+  - What is in the microtasks queue?
+    - Promises
+    - Mutation Observer
+    - QueueMicrotask()
+    - process.nextTick()
+    - Object.observe()
+    - Mutation Events
+    - UI Rendering
+
+```js
+console.log('Test start'); // 1
+setTimeout(() => console.log('0 sec timer'), 0); // 4
+Promise.resolve('Resolved promise 1').then(res => console.log(res)); // 3
+console.log('Test end'); // 2
+
+// The console will print:
+// Test start
+// Test end
+// Resolved promise 1
+// 0 sec timer
+```
+In the example above, 
+1. the first console.log() is executed
+2. the setTimeout() is sent to the Web APIs
+3. the Promise is sent to the Web APIs
+4. the second console.log() is executed
+5. the Promise is put in the microtasks queue, which has higher priority than the callback queue
+6. the setTimeout() is put in the callback queue
+7. the Event Loop puts the Promise in the Call Stack
+8. the Event Loop puts the setTimeout() in the Call Stack

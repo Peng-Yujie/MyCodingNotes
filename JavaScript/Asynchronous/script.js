@@ -130,7 +130,7 @@ const getCountryData = function (country) {
     .finally(() => {
       countriesContainer.style.opacity = 1;
     });
-}
+};
 
 // btn.addEventListener('click', function () {
 //   getCountryData('japan');
@@ -191,7 +191,7 @@ const wait = function (seconds) {
   return new Promise(function (resolve) {
     setTimeout(resolve, seconds * 1000);
   });
-}
+};
 
 wait(2).then(() => {
   console.log('Waited for 2 seconds');
@@ -273,7 +273,7 @@ const createImage = function (imgPath) {
       reject(new Error('Image not found'));
     })
   });
-}
+};
 
 let curImg;
 createImage('img/img-1.jpg')
@@ -301,6 +301,7 @@ createImage('img/img-1.jpg')
 // Async/Await
 // Error handling: Try...Catch
 
+/*
 const getPosition = function () {
   return new Promise(function (resolve, reject) {
     navigator.geolocation.getCurrentPosition(resolve, reject);
@@ -349,4 +350,65 @@ console.log('1: Will get location');
   }
   console.log('3: Finished getting location');
 })();
+*/
 
+// running promises in parallel
+// const get3Countries = async function (c1, c2, c3) {
+//   try {
+//     // const [data1] = await getJSON(`https://countries-api-836d.onrender.com/countries/name/${c1}`);
+//     // const [data2] = await getJSON(`https://countries-api-836d.onrender.com/countries/name/${c2}`);
+//     // const [data3] = await getJSON(`https://countries-api-836d.onrender.com/countries/name/${c3}`);
+
+//     const data = await Promise.all([
+//       getJSON(`https://countries-api-836d.onrender.com/countries/name/${c1}`),
+//       getJSON(`https://countries-api-836d.onrender.com/countries/name/${c2}`),
+//       getJSON(`https://countries-api-836d.onrender.com/countries/name/${c3}`)
+//     ]);
+//     console.log(data.map(d => d[0].capital));
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
+
+// get3Countries('canada', 'usa', 'china');
+
+(async function () {
+  const res = await Promise.race([
+    getJSON(`https://countries-api-836d.onrender.com/countries/name/canada`),
+    getJSON(`https://countries-api-836d.onrender.com/countries/name/china`),
+    getJSON(`https://countries-api-836d.onrender.com/countries/name/usa`)
+  ]);
+  console.log(res[0]);
+})();
+
+const timeout = function (s) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error('Request tool too long!'));
+    }, s * 1000);
+  });
+};
+
+Promise.race([
+  getJSON(`https://countries-api-836d.onrender.com/countries/name/canada`),
+  timeout(0.15)
+]).then(res => console.log(res[0])).catch(err => console.error(err));
+
+// Promise.allSettled
+Promise.allSettled([
+  // Promise.resolve('Success'),
+  // Promise.resolve('Another Success'),
+  Promise.reject('Error1'),
+  Promise.reject('Error2'),
+  Promise.reject('Error3'),
+  Promise.reject('Error4'),
+]).then(res => console.log(res)).catch(err => console.error(err));
+// Promise.any
+Promise.any([
+  Promise.reject('Error1'),
+  Promise.reject('Error2'),
+  Promise.reject('Error3'),
+  Promise.reject('Error4'),
+  Promise.resolve('Success'),
+  Promise.resolve('Another Success'),
+]).then(res => console.log(res)).catch(err => console.error(err));

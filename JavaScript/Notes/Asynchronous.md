@@ -92,7 +92,6 @@ const lotteryPromise = new Promise(function (resolve, reject) { // resolve and r
 lotteryPromise.then(res => console.log(res)).catch(err => console.log(err));
 ```
 
-
 ## Behind the Scene: The Event Loop
 - JavaScript Engine: the program that executes JavaScript code
   - Call Stack: where the code is executed, only one at a time
@@ -227,3 +226,21 @@ console.log('LAST');
 ### Returning Values from Async Functions
 when calling this async function `func()`, it returns a promise, so we can use `then()` to handle the result.
 - **note**: since `func()` is an async function, it will be executed asynchronously, so the `console.log('LAST')` will be executed before `func()` is finished.
+
+### Promise.all()
+Promise.all() takes an array of promises, and returns a new promise that will be fulfilled when all the promises in the array are fulfilled.
+- If one of the promises is rejected, the new promise will be rejected immediately.
+- The result of the new promise is an array of the results of the fulfilled promises.
+
+### Promise.race()
+Promise.race() takes an array of promises, and returns a new promise that will be fulfilled when one of the promises in the array is fulfilled.
+- Suppose we have many promises, but we only want to use the result of the first one that is fulfilled.
+
+### Promise.allSettled()
+Promise.allSettled() takes an array of promises, and returns a new promise that will be fulfilled when all the promises in the array are settled.
+- settled: fulfilled or rejected
+
+### Promise.any()
+Promise.any() takes an array of promises, and returns a new promise that will be fulfilled when one of the promises in the array is fulfilled.
+- return the first fulfilled promise
+- if all the promises are rejected, the new promise will be rejected.

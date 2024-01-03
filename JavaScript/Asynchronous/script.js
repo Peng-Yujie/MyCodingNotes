@@ -186,13 +186,13 @@ lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
 */
 
 // Promisifying setTimeout
-/*
+
 const wait = function (seconds) {
   return new Promise(function (resolve) {
     setTimeout(resolve, seconds * 1000);
   });
 };
-
+/*
 wait(2).then(() => {
   console.log('Waited for 2 seconds');
   return wait(1);
@@ -258,7 +258,7 @@ TEST DATA: Images in the img folder. Test the error handler by passing a wrong i
 
 GOOD LUCK 😀
 */
-/*
+
 const imgContainer = document.querySelector('.images');
 
 const createImage = function (imgPath) {
@@ -276,6 +276,7 @@ const createImage = function (imgPath) {
 };
 
 let curImg;
+/*
 createImage('img/img-1.jpg')
   .then(img => {
     curImg = img;
@@ -353,25 +354,27 @@ console.log('1: Will get location');
 */
 
 // running promises in parallel
-// const get3Countries = async function (c1, c2, c3) {
-//   try {
-//     // const [data1] = await getJSON(`https://countries-api-836d.onrender.com/countries/name/${c1}`);
-//     // const [data2] = await getJSON(`https://countries-api-836d.onrender.com/countries/name/${c2}`);
-//     // const [data3] = await getJSON(`https://countries-api-836d.onrender.com/countries/name/${c3}`);
+/*
+// Promise.all
+const get3Countries = async function (c1, c2, c3) {
+  try {
+    // const [data1] = await getJSON(`https://countries-api-836d.onrender.com/countries/name/${c1}`);
+    // const [data2] = await getJSON(`https://countries-api-836d.onrender.com/countries/name/${c2}`);
+    // const [data3] = await getJSON(`https://countries-api-836d.onrender.com/countries/name/${c3}`);
 
-//     const data = await Promise.all([
-//       getJSON(`https://countries-api-836d.onrender.com/countries/name/${c1}`),
-//       getJSON(`https://countries-api-836d.onrender.com/countries/name/${c2}`),
-//       getJSON(`https://countries-api-836d.onrender.com/countries/name/${c3}`)
-//     ]);
-//     console.log(data.map(d => d[0].capital));
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
+    const data = await Promise.all([
+      getJSON(`https://countries-api-836d.onrender.com/countries/name/${c1}`),
+      getJSON(`https://countries-api-836d.onrender.com/countries/name/${c2}`),
+      getJSON(`https://countries-api-836d.onrender.com/countries/name/${c3}`)
+    ]);
+    console.log(data.map(d => d[0].capital));
+  } catch (err) {
+    console.error(err);
+  }
+};
+get3Countries('canada', 'usa', 'china');
 
-// get3Countries('canada', 'usa', 'china');
-
+// Promise.race
 (async function () {
   const res = await Promise.race([
     getJSON(`https://countries-api-836d.onrender.com/countries/name/canada`),
@@ -403,6 +406,7 @@ Promise.allSettled([
   Promise.reject('Error3'),
   Promise.reject('Error4'),
 ]).then(res => console.log(res)).catch(err => console.error(err));
+
 // Promise.any
 Promise.any([
   Promise.reject('Error1'),
@@ -412,3 +416,41 @@ Promise.any([
   Promise.resolve('Success'),
   Promise.resolve('Another Success'),
 ]).then(res => console.log(res)).catch(err => console.error(err));
+*/
+
+///////////////////////////////////////
+// Coding Challenge #3
+
+// Part 1
+const loadNPause = async function () {
+  try {
+    const img1 = await createImage('img/img-1.jpg');
+    curImg = img1;
+    console.log('Image 1 loaded');
+    await wait(2);
+    curImg.style.display = 'none';
+
+    const img2 = await createImage('img/img-2.jpg');
+    curImg = img2;
+    console.log('Image 2 loaded');
+    await wait(2);
+    curImg.style.display = 'none';
+  } catch (err) {
+    console.error(err);
+  }
+};
+loadNPause();
+// Part 2
+const loadAll = async function (imgArr) {
+  try {
+    // const imgs = imgArr.map(async img => await createImage(img));
+    // const imgsEl = await Promise.all(imgs);
+    // console.log(imgsEl);
+    const imgs = await Promise.all(imgArr.map(img => createImage(img)));
+    console.log(imgs);
+    imgs.forEach(img => img.classList.add('parallel'));
+  } catch (err) {
+    console.error(err);
+  }
+};
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);

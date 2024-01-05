@@ -7,6 +7,16 @@ const messages = [
 ];
 
 export default function App() {
+  return (
+    <div>
+      <Steps />
+      {/* <Steps /> */}
+      <Counter />
+    </div>
+  );
+}
+
+function Steps() {
   const [step, setStep] = useState(1);
   const [isOpen, setIsOpen] = useState(true);
 
@@ -19,7 +29,7 @@ export default function App() {
   }
 
   return (
-    <>
+    <div>
       <button className="close" onClick={() => setIsOpen(!isOpen)}>
         &times;
       </button>
@@ -51,6 +61,51 @@ export default function App() {
           </div>
         </div>
       )}
-    </>
+    </div>
+  );
+}
+
+function Counter() {
+  const [step, setStep] = useState(1);
+  const [count, setCount] = useState(0);
+
+  const date = new Date();
+  date.setDate(date.getDate() + count);
+
+  function decStep() {
+    if (step > 1) setStep(step - 1);
+  }
+
+  function incStep() {
+    setStep(step + 1);
+  }
+
+  function decCount() {
+    setCount(count - step);
+  }
+
+  function incCount() {
+    setCount(count + step);
+  }
+
+  return (
+    <div>
+      <div>
+        <button onClick={decStep}>-</button>
+        <span>Step: {step}</span>
+        <button onClick={incStep}>+</button>
+      </div>
+      <div>
+        <button onClick={decCount}>-</button>
+        <span>Count: {count}</span>
+        <button onClick={incCount}>+</button>
+      </div>
+      <p>
+        {count === 0 && `Today is ${date.toDateString()}`}
+        {count < 0 && `${Math.abs(count)} days ago was ${date.toDateString()}`}
+        {count > 0 &&
+          `${Math.abs(count)} days from today is ${date.toDateString()}`}
+      </p>
+    </div>
   );
 }

@@ -217,3 +217,10 @@ e.g. `setStep(step + 1)`
 - When building a component, view it as a function of state changing over time
 - Don't use state for data that should not trigger a re-render
   - e.g. data that doesn't change over time, data that can be computed from other state values, etc.
+
+### State vs Props
+
+- State is internal and controlled by the component itself, while props are external and controlled by whatever renders the component
+- State can be changed by the component itself, while props is read-only
+- Updating state triggers a re-render, while updating props doesn't
+- State is used to make components interactive, while props are used to pass data from parent to child components

@@ -161,6 +161,36 @@ function Item({ itemObj }) {
 }
 ```
 
+### Props as an API
+
+- Component creators define the API, then component users use it
+- Abstraction that encapsulates implementation details
+- Why?
+  - Too many props make components hard to use, too few props make components hard to reuse
+  - Need to find a balance between flexibility and usability
+- How?
+  - Define the API
+  - Document the API
+  - Use default props
+  - Use prop types
+
+### Prop types
+
+PropType is a property that we can add to a component to define the type of each prop.
+
+1. import `prop-types`: `import PropTypes from 'prop-types';`
+2. add `propTypes` to the component:
+
+```js
+ComponentName.propTypes = {
+  propName: PropTypes.type,
+};
+```
+
+3. after we define the prop types, we must pass the correct type of data to the component, otherwise, we will get a warning in the console
+
+**TODO: TypeScript**
+
 ## State
 
 Data than a component can hold over time. And it can be changed.

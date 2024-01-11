@@ -254,3 +254,61 @@ e.g. `setStep(step + 1)`
 - State can be changed by the component itself, while props is read-only
 - Updating state triggers a re-render, while updating props doesn't
 - State is used to make components interactive, while props are used to pass data from parent to child components
+
+## How React Works behind the Scenes
+
+- Components are just functions
+- Create a component instance
+  - An instance is a copy of the component, with its own state and props
+- Return a React element
+- React takes the element and renders it to the DOM
+  - What is rendered to the DOM is not a component, but a React element
+
+When use `<Component />`, it returns the React element, the type of this element is the component itself.
+But if we call `Component()`, it returns the React element, the type of this element is the return value of the component.
+
+How are components displayed on the screen?
+
+- Render is triggered by state changes
+  - Initial render
+  - State update(re-render)
+- [Render phase](#render-phase)
+  - React calls the component function
+  - The component function returns a React element
+  - React compares the new element with the previous one
+  - React updates the DOM with the new element
+- [Commit phase](#commit-phase)
+  - React writes to the DOM
+  - React updates, adds, or removes DOM nodes
+- Browser paints the screen
+
+### Render phase
+
+- React calls the component function
+- The component function returns a React element
+  - Virtual DOM Tree: Tree of all React elements from all instances
+  - Every time a component is rendered, a **new virtual DOM tree** is created
+  - Rendering a component will render all its children(no matter if they are rendered or not)
+- Update fiber tree
+  - A new virtual DOM tree will cause **Reconciliation**, which is a process of deciding what has changed in the DOM
+    - **[Reconcilor: Fiber](#fiber)**
+- [Update the DOM](#commit-phase)
+
+#### Fiber
+
+Fiber is a data structure that represents a component instance:
+
+- Current state
+- Props
+- Side effects
+- Used hooks
+- **Queue of work**
+
+Fiber tree: Tree of all fibers from all instances
+
+### Commit phase
+
+- React writes to the DOM: insert, update, or remove DOM nodes
+- committing is synchronous (but rendering is asynchronous)
+- after the commit phase, the WIP fiber tree becomes the current fiber tree
+- **Browser Paint**: update the screen

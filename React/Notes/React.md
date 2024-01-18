@@ -23,31 +23,7 @@ React is a JavaScript **library** for building user interfaces.
 ## Components
 
 A component is a piece of the user interface. It can be a button, a form, a dialog, a screen, etc.
-
-- Each component is concerned with one piece of the UI
-- Components are reusable and composable
-- A component can contain JavaScript, HTML, CSS, and other components
-
-Structure of a component:
-
-- Data
-  - **Props**
-  - **State**
-- Logic
-- Appearance: **JSX**
-
-### Create a component
-
-#### function component
-
-- A function that returns a React element
-- Only returns a single root element
-  - If there are more than one element, wrap them in a div
-- Can receive props as an argument
-
-#### class component
-
-- A class that extends React.Component
+[More details](Components.md)
 
 ## JSX
 
@@ -75,22 +51,6 @@ Declarative syntax to describe what components look like and how they work
   - React takes care of the rest
   - Never touch the DOM directly, instead, consider the UI as a function of state
 
-### CSS in Components
-
-- import css file
-
-- inline styles
-
-```js
-function Button() {
-  const style = {
-    backgroundColor: "red",
-    color: "white",
-  };
-  return <button style={style}>Click me</button>;
-}
-```
-
 ### React Fragment
 
 A React component that allows us to return multiple elements without adding extra nodes to the DOM
@@ -99,7 +59,7 @@ A React component that allows us to return multiple elements without adding extr
 
 ## Props
 
-**Props:** short for properties.
+**Props:** short for properties.[More details](Props.md)
 
 - Props are used to pass data **from parent to child** components
 - Anything can be passed as a prop: strings, numbers, functions, objects, etc.
@@ -107,202 +67,15 @@ A React component that allows us to return multiple elements without adding extr
   - A component must not modify its own props
   - If you need to modify the data, use **state** instead
 
-### One-way data flow
-
-Data can only be passed from parent to child components via props.
-
-- more predictable and easier to understand
-- easier to debug
-- more performant
-
-What if we need to pass data from child to parent components?
-
-- Use **callbacks** to pass data from child to parent components
-- Use **state** to store data in parent components
-
-### render lists
-
-use `map` to render a list of items
-
-```js
-// within a component
-function List() {
-  const items = ["item1", "item2", "item3"];
-  return (
-    <ul>
-      {items.map((item) => (
-        <li>{item}</li>
-      ))}
-    </ul>
-  );
-}
-
-// props
-const arr = [1, 2, 3];
-function List() {
-  return (
-    <ul>
-      {arr.map((item) => (
-        <Item itmeObj={item} />
-      ))}
-    </ul>
-  );
-}
-
-function Item(props) {
-  return <li>{props.itemObj}</li>;
-}
-```
-
-#### Destrcuturing props
-
-use `{}` to destructure props
-
-```js
-function Item({ itemObj }) {
-  return <li>{itemObj}</li>;
-}
-```
-
-### Props as an API
-
-- Component creators define the API, then component users use it
-- Abstraction that encapsulates implementation details
-- Why?
-  - Too many props make components hard to use, too few props make components hard to reuse
-  - Need to find a balance between flexibility and usability
-- How?
-  - Define the API
-  - Document the API
-  - Use default props
-  - Use prop types
-
-### Prop types
-
-PropType is a property that we can add to a component to define the type of each prop.
-
-1. import `prop-types`: `import PropTypes from 'prop-types';`
-2. add `propTypes` to the component:
-
-```js
-ComponentName.propTypes = {
-  propName: PropTypes.type,
-};
-```
-
-3. after we define the prop types, we must pass the correct type of data to the component, otherwise, we will get a warning in the console
-
-**TODO: TypeScript**
-
-### Key prop
-
-What is the key prop?
-
-- A special prop that is used to identify elements
-- Must be unique among siblings
-- Allow react to destinguish between multiple instances of the same component
-- When a key stays the same across renders, the element will be kept in the DOM
-- When a key changes, the element will be removed from the DOM and a new element will be created
-
-#### Keys in Lists
-
-Suppose there is a list of items, but no key is provided, then when we add a new item to the list, the positions may change, causing the DOM to be re-rendered.
-With keys, React can keep track of the items and **only re-render the new item**.
-
-#### Keys to Reset State
-
-If we have the same element at the same position, when we need to change the attributes of the element, we can use keys to reset the state of the element.
-Without keys, the element will not be re-rendered. For example, suppose the state is false, even we change the content of the component, the state will not be changed since it's seen as the same element.
-
 ## State
 
-Data than a component can hold over time. And it can be changed.
+Data than a component can hold over time. And it can be changed.[More details](State.md)
 With state, we can:
 
 - Update the UI by re-rendering the component
 - Respond to user input in forms and events
 - Send HTTP requests to remote servers
 - Connect to external APIs
-
-### useState
-
-- `useState` is a hook that allows us to add state to functional components
-- `useState` returns an array with two elements
-  - The first element is the **current state value**
-  - The second element is a **function to update the state** value
-
-```js
-const [step, setStep] = useState(1); // initial value
-
-function handlePrevious() {
-  if (step > 1) setStep(step - 1);
-}
-
-function handleNext() {
-  if (step < 3) setStep(step + 1);
-}
-```
-
-### Update state
-
-Don't manually update state. Instead, use the function returned by `useState`.
-e.g. `setStep(step + 1)`
-
-### The Mechanics of State in React
-
-- State is stored in the component
-- In React, a view is updated by re-rendering the component
-- When the state is updated, the component re-renders
-- State can only be updated by the component that owns it
-- State can be passed to child components via props
-
-### State guidelines
-
-- One component, one state
-  - state is isolated to the component that owns it
-- UI as a function of state
-  - Each state value is a variable
-- Use a state for any data that the component needs to track
-  - e.g. form data, user input, etc.
-- Something need to be dynamic? Use state
-  - e.g. show/hide a component, change the color of a button, etc.
-- Update state with the function returned by `useState` when we need to change the state
-- When building a component, view it as a function of state changing over time
-- Don't use state for data that should not trigger a re-render
-  - e.g. data that doesn't change over time, data that can be computed from other state values, etc.
-
-### State vs Props
-
-- State is internal and controlled by the component itself, while props are external and controlled by whatever renders the component
-- State can be changed by the component itself, while props is read-only
-- Updating state triggers a re-render, while updating props doesn't
-- State is used to make components interactive, while props are used to pass data from parent to child components
-
-### Reset state
-
-The state will only change after the component is re-rendered.
-
-```js
-function handleReset() {
-  // suppose step is 1 now
-  setStep(0);
-  console.log(step); // 1
-}
-// After the component is re-rendered, step will be 0
-
-function handleTripleInc() {
-  setLikes(likes + 1);
-  setLikes(likes + 1);
-  setLikes(likes + 1);
-}
-// calling this fn will only increase likes by 1, because the state is not updated immediately
-function handleTripleInc2() {
-  setLikes((likes) => likes + 1);
-  setLikes((likes) => likes + 1);
-  setLikes((likes) => likes + 1);
-}
-// passing a callback fn to setLikes will increase likes by 3
-```
 
 ## How React Works behind the Scenes
 

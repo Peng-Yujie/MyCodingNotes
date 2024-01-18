@@ -2,7 +2,10 @@
 
 ## Overview
 
-React is a JavaScript library for building user interfaces.
+React is a JavaScript **library** for building user interfaces.
+
+- React is **not** a framework
+
 **Main features:**
 
 - Declarative
@@ -191,6 +194,26 @@ ComponentName.propTypes = {
 
 **TODO: TypeScript**
 
+### Key prop
+
+What is the key prop?
+
+- A special prop that is used to identify elements
+- Must be unique among siblings
+- Allow react to destinguish between multiple instances of the same component
+- When a key stays the same across renders, the element will be kept in the DOM
+- When a key changes, the element will be removed from the DOM and a new element will be created
+
+#### Keys in Lists
+
+Suppose there is a list of items, but no key is provided, then when we add a new item to the list, the positions may change, causing the DOM to be re-rendered.
+With keys, React can keep track of the items and **only re-render the new item**.
+
+#### Keys to Reset State
+
+If we have the same element at the same position, when we need to change the attributes of the element, we can use keys to reset the state of the element.
+Without keys, the element will not be re-rendered. For example, suppose the state is false, even we change the content of the component, the state will not be changed since it's seen as the same element.
+
 ## State
 
 Data than a component can hold over time. And it can be changed.
@@ -255,6 +278,32 @@ e.g. `setStep(step + 1)`
 - Updating state triggers a re-render, while updating props doesn't
 - State is used to make components interactive, while props are used to pass data from parent to child components
 
+### Reset state
+
+The state will only change after the component is re-rendered.
+
+```js
+function handleReset() {
+  // suppose step is 1 now
+  setStep(0);
+  console.log(step); // 1
+}
+// After the component is re-rendered, step will be 0
+
+function handleTripleInc() {
+  setLikes(likes + 1);
+  setLikes(likes + 1);
+  setLikes(likes + 1);
+}
+// calling this fn will only increase likes by 1, because the state is not updated immediately
+function handleTripleInc2() {
+  setLikes((likes) => likes + 1);
+  setLikes((likes) => likes + 1);
+  setLikes((likes) => likes + 1);
+}
+// passing a callback fn to setLikes will increase likes by 3
+```
+
 ## How React Works behind the Scenes
 
 - Components are just functions
@@ -310,5 +359,24 @@ Fiber tree: Tree of all fibers from all instances
 
 - React writes to the DOM: insert, update, or remove DOM nodes
 - committing is synchronous (but rendering is asynchronous)
-- after the commit phase, the WIP fiber tree becomes the current fiber tree
+- after the commit phase, the **WIP fiber tree** becomes the current fiber tree
 - **Browser Paint**: update the screen
+
+### How does Diffing work?
+
+1. Same position, different element:
+   - Update the DOM node
+   - Update the fiber
+2. Same element, same position:
+   - Element will be kept, including state
+   - New props/attributes will be applied
+
+## Events
+
+### Events in React VS JavaScript
+
+- Attributes for event handlers are written in camelCase(`onClick` instead of `onclick`)
+- Default behavior can not be prevented with `return false`
+  - Use `event.preventDefault()`
+- Attach `Capture` if you need to handle during capture phase
+  - `onClickCapture`

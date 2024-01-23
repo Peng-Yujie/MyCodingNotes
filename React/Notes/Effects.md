@@ -22,5 +22,5 @@ execute the side effect
 
 `useEffect` runs on every render by default.
 
-- If you want to run it only once, you can pass an empty array as the second argument.
-- If you want to run it only when a certain value changes, you can pass that value as the second argument.
+- Each time one of the dependencies changes, the effect is re-run.
+- If you want to run it only once, you can pass an empty array as the second argument(`[]` with no props or state).

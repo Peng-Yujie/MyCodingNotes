@@ -52,8 +52,8 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-function Search() {
-  const [query, setQuery] = useState("");
+function Search({ query, setQuery }) {
+  // const [query, setQuery] = useState("");
 
   return (
     <input
@@ -67,40 +67,67 @@ function Search() {
 }
 
 export default function App() {
+  const [query, setQuery] = useState("inception");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const query = "hbhi";
+  const tempQuery = "interstellar";
 
+  /*
   useEffect(function () {
-    async function fetchMovies() {
-      try {
-        setIsLoading(true);
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${APIKEY}&s=${query}`
-        );
-        if (!res.ok)
-          throw new Error("Something went wrong with fetching movies");
-
-        const data = await res.json();
-        if (data.Response === "False") throw new Error("Movie not found");
-
-        setMovies(data.Search);
-      } catch (err) {
-        console.error(err.message);
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchMovies();
+    console.log("A");
   }, []);
+
+  useEffect(
+    function () {
+      console.log("B");
+    },
+    [query]
+  );
+
+  console.log("C");
+  */
+
+  useEffect(
+    function () {
+      async function fetchMovies() {
+        try {
+          setIsLoading(true);
+          setError("");
+          const res = await fetch(
+            `http://www.omdbapi.com/?apikey=${APIKEY}&s=${query}`
+          );
+          if (!res.ok)
+            throw new Error("Something went wrong with fetching movies");
+
+          const data = await res.json();
+          if (data.Response === "False") throw new Error("Movie not found");
+
+          setMovies(data.Search);
+        } catch (err) {
+          console.error(err.message);
+          setError(err.message);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+
+      if (query.length < 3) {
+        setMovies([]);
+        setError("");
+        return;
+      }
+
+      fetchMovies();
+    },
+    [query]
+  );
 
   return (
     <>
       <NavBar>
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
       <Main>

@@ -24,3 +24,24 @@ execute the side effect
 
 - Each time one of the dependencies changes, the effect is re-run.
 - If you want to run it only once, you can pass an empty array as the second argument(`[]` with no props or state).
+
+## Cleanup
+
+Runs on two different occasions:
+
+- Before the effect is run again
+- After the component is unmounted
+  - `unmounted` means that the component is removed from the DOM
+
+```jsx
+useEffect(() => {
+  const timeout = setTimeout(() => {
+    console.log("timeout");
+  }, 1000);
+
+  // cleanup
+  return () => {
+    clearTimeout(timeout);
+  };
+}, []);
+```

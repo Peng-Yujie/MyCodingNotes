@@ -16,3 +16,10 @@ Hooks: functions that let you “hook into” React state and lifecycle features
 
 - create a variable that stays the same between renders
 - select and store DOM nodes
+
+## Custom Hooks
+
+for reusing and porting stateful logic between components
+
+- need to use one or more built-in Hooks
+- can receive and return any relevant data(`[]`,`{}`)

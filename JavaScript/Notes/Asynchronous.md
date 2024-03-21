@@ -5,7 +5,9 @@
 - What makes the script asynchronous is not the function itself, but the way it is called.
 
 ## AJAX
+
 AJAX stands for Asynchronous JavaScript and XML.
+
 - Server and client
 - Online API: receive request and send response
   - **Node.js(TBD)**
@@ -13,23 +15,29 @@ AJAX stands for Asynchronous JavaScript and XML.
 - JSON: JavaScript Object Notation, which is more popular now
 
 ### XMLHttpRequest
+
 ```js
 const xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://api-to-call.com/endpoint'); // create a new request and open it
+xhr.open("GET", "https://api-to-call.com/endpoint"); // create a new request and open it
 xhr.send(); // send the request
 const [data] = xhr.responseText; // get the response
 ```
 
 ## Callback Hell
+
 Callback hell refers to the fact that the code is difficult to read and follow because of the many callbacks.
+
 - nested callbacks
 - hard to debug
 
 ## Promises
+
 Modern JavaScript introduced the concept of promises to solve the problem of callback hell.
 
 ### What is a Promise?
+
 **Promise:** A container for an asynchronously delivered value(in the future).
+
 - No need to rely on callbacks and events anymore
 - Chainable
 - **Lifecycle**
@@ -60,39 +68,49 @@ getCountryData('canada');
 ```
 
 ### fetch() | Bulid a Promise
+
 fetch() is a web API that can be used to create requests.
+
 - Parameters: URL, options
   - `fetch('<url>')`
   - `fetch('<url>', {method: 'POST', body: JSON.stringify({name: 'john'})})`
 - It returns a promise.
 
 ### then() | Handle a Fulfilled Promise
+
 then() follows and handles a promise.
+
 - Return a promise
 
 ### catch() | Handling Rejected Promises
+
 catch() handles a rejected promise, it catches any error in the chain.
 
 ### finally() | Always Execute
+
 finally() always executes, no matter the promise is fulfilled or rejected.
 
 ### throw Error
+
 To handle error in the way we want, we can throw an error in the chain.
 
 ### Build a Promise
+
 ```js
-const lotteryPromise = new Promise(function (resolve, reject) { // resolve and reject are callback functions
+const lotteryPromise = new Promise(function (resolve, reject) {
+  // resolve and reject are callback functions
   if (Math.random() >= 0.5) {
-    resolve('You WIN'); // resolve is called and the promise is fulfilled, the value can be accessed by then()
+    resolve("You WIN"); // resolve is called and the promise is fulfilled, the value can be accessed by then()
   } else {
-    reject(new Error('You lost your money')); // the content within reject() can be any value(string, number, object, etc.), but it is recommended to be an Error object
+    reject(new Error("You lost your money")); // the content within reject() can be any value(string, number, object, etc.), but it is recommended to be an Error object
   }
 });
 
-lotteryPromise.then(res => console.log(res)).catch(err => console.log(err));
+lotteryPromise.then((res) => console.log(res)).catch((err) => console.log(err));
 ```
 
 ## Behind the Scene: The Event Loop
+
 - JavaScript Engine: the program that executes JavaScript code
   - Call Stack: where the code is executed, only one at a time
   - Heap: where objects are stored
@@ -103,6 +121,7 @@ lotteryPromise.then(res => console.log(res)).catch(err => console.log(err));
 - Callback Queue: where the callbacks are placed, waiting to be executed
 
 ### How Asynchronous Code Works
+
 Event loop decides when each callback function is executed.
 
 - The code is executed line by line
@@ -122,10 +141,10 @@ Event loop decides when each callback function is executed.
     - UI Rendering
 
 ```js
-console.log('Test start'); // 1
-setTimeout(() => console.log('0 sec timer'), 0); // 4
-Promise.resolve('Resolved promise 1').then(res => console.log(res)); // 3
-console.log('Test end'); // 2
+console.log("Test start"); // 1
+setTimeout(() => console.log("0 sec timer"), 0); // 4
+Promise.resolve("Resolved promise 1").then((res) => console.log(res)); // 3
+console.log("Test end"); // 2
 
 // The console will print:
 // Test start
@@ -133,7 +152,9 @@ console.log('Test end'); // 2
 // Resolved promise 1
 // 0 sec timer
 ```
-In the example above, 
+
+In the example above,
+
 1. the first console.log() is executed
 2. the setTimeout() is sent to the Web APIs
 3. the Promise is sent to the Web APIs
@@ -144,20 +165,25 @@ In the example above,
 8. the Event Loop puts the setTimeout() in the Call Stack
 
 ## Async/Await
+
 Async/await is a modern way of handling asynchronous code.
+
 - Async functions always return a **promise**
 - await is only valid in an async function
 - await pauses the execution of the async function, waiting for the promise to be fulfilled
+- when calling an async function, we should use await before the function call: `const fn = async function() {return '...'}; const res = await fn();`
 
 ```js
 const whereAmI = async function (country) {
-  const res = await fetch(`https://countries-api-836d.onrender.com/countries/name/${country}`);
+  const res = await fetch(
+    `https://countries-api-836d.onrender.com/countries/name/${country}`
+  );
   console.log(res);
   // Same as:
   // fetch(`https://countries-api-836d.onrender.com/countries/name/${country}`).then(res => console.log(res));
-}
-whereAmI('canada');
-console.log('FIRST'); // FIRST
+};
+whereAmI("canada");
+console.log("FIRST"); // FIRST
 // Output:
 // FIRST
 // Promise {<pending>}
@@ -167,19 +193,23 @@ console.log('FIRST'); // FIRST
 
 ```js
 const getCountryData = async function (country) {
-  try { 
-    const res = await fetch(`https://countries-api-836d.onrender.com/countries/name/${country}`);
+  try {
+    const res = await fetch(
+      `https://countries-api-836d.onrender.com/countries/name/${country}`
+    );
     const data = await res.json();
     renderCountry(data[0]);
     const neighbour = data[0].borders?.[0];
     if (!neighbour) return;
-    const res2 = await fetch(`https://countries-api-836d.onrender.com/countries/alpha/${neighbour}`);
+    const res2 = await fetch(
+      `https://countries-api-836d.onrender.com/countries/alpha/${neighbour}`
+    );
     const data2 = await res2.json();
-    renderCountry(data2, 'neighbour');
+    renderCountry(data2, "neighbour");
   } catch (err) {
     alert(err);
   }
-}
+};
 // same as:
 // const getCountryData = function (country) {
 //   fetch(`https://countries-api-836d.onrender.com/countries/name/${country}`)
@@ -195,27 +225,28 @@ const getCountryData = async function (country) {
 //     .catch(err => alert(err))
 //     .finally(()=>{...});
 // }
-getCountryData('canada');
+getCountryData("canada");
 ```
 
 ### Error Handling
+
 Cannot use `catch` to handle error in async/await, need to use `try...catch` instead.
-  
+
 ```js
-const func = async function() {
-  try{
+const func = async function () {
+  try {
     //...
     // if there might be an error, use throw new Error('...')
-    if(err) throw new Error('...');
+    if (err) throw new Error("...");
     return res;
-  } catch(err) {
+  } catch (err) {
     // handle error
   }
 };
 
-console.log('FIRST');
-func().then(res => console.log(res));
-console.log('LAST');
+console.log("FIRST");
+func().then((res) => console.log(res));
+console.log("LAST");
 
 // Output:
 // FIRST
@@ -224,23 +255,33 @@ console.log('LAST');
 ```
 
 ### Returning Values from Async Functions
+
 when calling this async function `func()`, it returns a promise, so we can use `then()` to handle the result.
+
 - **note**: since `func()` is an async function, it will be executed asynchronously, so the `console.log('LAST')` will be executed before `func()` is finished.
 
 ### Promise.all()
+
 Promise.all() takes an array of promises, and returns a new promise that will be fulfilled when all the promises in the array are fulfilled.
+
 - If one of the promises is rejected, the new promise will be rejected immediately.
 - The result of the new promise is an array of the results of the fulfilled promises.
 
 ### Promise.race()
+
 Promise.race() takes an array of promises, and returns a new promise that will be fulfilled when one of the promises in the array is fulfilled.
+
 - Suppose we have many promises, but we only want to use the result of the first one that is fulfilled.
 
 ### Promise.allSettled()
+
 Promise.allSettled() takes an array of promises, and returns a new promise that will be fulfilled when all the promises in the array are settled.
+
 - settled: fulfilled or rejected
 
 ### Promise.any()
+
 Promise.any() takes an array of promises, and returns a new promise that will be fulfilled when one of the promises in the array is fulfilled.
+
 - return the first fulfilled promise
 - if all the promises are rejected, the new promise will be rejected.

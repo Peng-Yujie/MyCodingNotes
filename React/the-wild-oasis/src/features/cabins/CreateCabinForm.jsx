@@ -114,7 +114,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button $variation="secondary" type="reset">
           Cancel
         </Button>
         <Button disabled={isWorking}>

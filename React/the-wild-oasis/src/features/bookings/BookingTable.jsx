@@ -3,8 +3,9 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Spinner from "../../ui/Spinner";
 import Empty from "../../ui/Empty";
-import { useBookings } from "../../hooks/useBookings";
 import Pagination from "../../ui/Pagination";
+
+import { useBookings } from "../../hooks/useBookings";
 
 function BookingTable() {
   const { isLoading, bookings, count } = useBookings();

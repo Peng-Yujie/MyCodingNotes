@@ -11,6 +11,7 @@ import ButtonText from "../../ui/ButtonText";
 import Spinner from "../../ui/Spinner";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import Empty from "../../ui/Empty";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useBooking } from "../../hooks/useBooking";
@@ -31,6 +32,13 @@ function BookingDetail() {
   const navigate = useNavigate();
 
   if (isLoading) return <Spinner />;
+  if (!booking)
+    return (
+      <Row type="horizontal">
+        <Empty resource="booking" />
+        <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
+      </Row>
+    );
 
   const { status, id: bookingId } = booking;
 

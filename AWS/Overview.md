@@ -18,3 +18,8 @@
   - AWS Certified Database
   - AWS Certified Data Analytics
 
+## Task Statements
+
+### Domain 1: Cloud Concepts
+
+### Domain 2: Security and Compliance

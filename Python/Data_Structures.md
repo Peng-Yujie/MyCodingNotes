@@ -61,7 +61,7 @@ for i in list1:
 list3 = [i for i in list1]
 
 # Create a 2D list with comprehension
-arr = [[0] * 3 for _ in range(3)]
+arr = [[0] * n for _ in range(m)]  # m: row, n: column
 
 # Create a list with comprehension and filter
 list4 = [i for i in list1 if i > 3]
@@ -113,12 +113,23 @@ queue[0]
 queue.popleft()  # 1
 ```
 
+### Loop through a Queue
+
+```python
+# Loop through a queue
+while queue:
+    print(queue.popleft())
+
+```
+
 ## Set (HashSet)
 
 - Set is a data structure that stores unordered, unique elements.
 - Set is useful when we need to store unique elements without order.
 
 ```python
+# Create a empty set
+set1 = set()
 # Create a set
 set1 = {1, 2, 3, 4, 5}
 
@@ -152,6 +163,10 @@ dict1 = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
 - clear()
 - copy()
 - count()
+
+What can be a key in a dictionary?
+
+- Hashable: immutable, such as `int`, `float`, `string`, `tuple`, `frozenset`.
 
 ### Dictionary Comprehension and Filter
 

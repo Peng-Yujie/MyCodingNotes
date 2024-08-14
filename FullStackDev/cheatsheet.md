@@ -278,3 +278,41 @@ app.get("/foo", (req, res, next) => {
 - **XSS**: The attacker injects a script that can be executed in the user's browser, stealing cookies or session data.
 - **CSRF**: The attacker tricks the user into submitting a request that the user did not intend to make, e.g., fake form submission by hiding it or auto-submitting it.
 - **SQL Injection**: The attacker injects SQL queries into input fields, manipulating the database or retrieving sensitive data.
+
+### System Design
+
+Steps to design a system:
+
+- **Requirements**:
+  - Understand the problem and requirements
+  - Identify the typical user flows
+  - Assumptions and constraints
+- **Database Schema**:
+  - Define the entities and relationships
+  - Normalize or denormalize based on use cases
+- **Backend Design**:
+  - Define the APIs based on the requirements
+  - Typically RESTful APIs:
+    - GET: Read data
+    - POST: Create data
+    - PUT: Update data
+    - DELETE: Delete data
+- **Caching**:
+  - Identify the data that can be cached
+  - Lazy loading, write-through, cache invalidation
+- **Security**:
+  - Identify potential security threats and implement measures
+  - `XSS`: mitigate by escaping rendered HTML
+  - `CSRF`: attach CSRF tokens to requests
+  - `SQL Injection`: use a query builder or ORM
+    - `queryBuilder`: e.g. Knex.js for SQL databases
+    - `ORM`: e.g. mongoose for MongoDB, Sequelize for SQL databases
+  - `session hijacking`: Use secure cookies, HTTPS. Use secure session IDs like `uuid`. Expire sessions with a TTL, and on logout.
+  - `safe images`: sanitize image uploads via an external API
+  - `spam prevention`: smartly decide on rate limiting and the notification frequency
+- **Access Control**:
+  - Role-based access control (RBAC)
+  - Attribute-based access control (ABAC)
+- **External Services**:
+  - Identify external services needed
+  - Google OIDC to log in, Rich Text Editor, Payment Gateway, AWS S3 for file storage
